@@ -1,10 +1,13 @@
 const express = require("express");
+const cors = require("cors");
 require("dotenv").config();
 
 const connection = require("./config/db");
 const chats = require("./data");
 
 const app = express();
+app.use(cors());
+app.use(express.json());
 
 app.get("/", (req, res) => {
   try {
@@ -27,7 +30,7 @@ app.get("/chats/:id", (req, res) => {
   try {
     let singleChat = chats.find((c) => c._id === id);
     if (singleChat) {
-      res.send(chats);
+      res.send(singleChat);
     } else {
       res.send("There is no exiting chat");
     }
