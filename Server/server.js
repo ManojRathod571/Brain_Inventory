@@ -3,7 +3,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const connection = require("./config/db");
-const chats = require("./data");
+const userRoutes = require("./routes/user.routes");
 
 const app = express();
 app.use(cors());
@@ -17,27 +17,7 @@ app.get("/", (req, res) => {
   }
 });
 
-app.get("/chats", (req, res) => {
-  try {
-    res.send(chats);
-  } catch (error) {
-    res.send(error);
-  }
-});
-
-app.get("/chats/:id", (req, res) => {
-  const { id } = req.params;
-  try {
-    let singleChat = chats.find((c) => c._id === id);
-    if (singleChat) {
-      res.send(singleChat);
-    } else {
-      res.send("There is no exiting chat");
-    }
-  } catch (error) {
-    res.send(error);
-  }
-});
+app.use("/api/user", userRoutes);
 
 const port = process.env.PORT || 8282;
 
